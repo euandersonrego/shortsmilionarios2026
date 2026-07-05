@@ -15,8 +15,29 @@
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
+    
+    // Inicialização do Pixel
     fbq('init', '2989922651346925');
+    
+    // 1. Evento Padrão de Visualização de Página
     fbq('track', 'PageView');
+    
+    // 2. Evento de Visualização de Conteúdo (Indicador forte para páginas de vendas)
+    fbq('track', 'ViewContent', {
+        content_name: 'Página de Vendas - Shorts Milionários',
+        content_category: 'Software/Curso'
+    });
+
+    // 3. Condicional para Evento de Compra (Purchase)
+    // O evento de Purchase geralmente fica na página de "Obrigado" ou é disparado pela Hotmart.
+    // Se a URL contiver "?compra=aprovada" (ex: retorno do checkout), disparamos a Compra aqui.
+    if (window.location.search.includes('compra=aprovada')) {
+        fbq('track', 'Purchase', {
+            currency: 'BRL',
+            value: 47.00,
+            content_name: 'Shorts Milionários'
+        });
+    }
     </script>
     <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=2989922651346925&ev=PageView&noscript=1"
@@ -107,7 +128,6 @@
 <body class="antialiased selection:bg-brand-gold selection:text-black">
 
     <!-- DOBRA 1 (HERO) -->
-    <!-- Alterado de min-h-screen para padding específico (pt-8 lg:pt-16) para reduzir o espaço no topo -->
     <section class="flex items-center relative overflow-hidden pt-8 pb-16 lg:pt-16 lg:pb-20">
         <div class="absolute top-[-20%] left-[-10%] w-[80%] h-[80%] md:w-[50%] md:h-[50%] bg-brand-gold/10 blur-[100px] md:blur-[120px] rounded-full pointer-events-none"></div>
         
@@ -161,7 +181,6 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-10 md:mb-12">
                     <div class="bg-[#110505] border border-red-900/30 p-6 md:p-8 rounded-2xl">
-                        <!-- Lista atualizada: os 3 primeiros itens da imagem foram removidos -->
                         <ul class="space-y-3 md:space-y-4 text-[#BDBDBD] text-base md:text-lg">
                             <li class="flex items-center gap-3"><span class="text-red-500 font-bold">❌</span> "não sabe editar"</li>
                             <li class="flex items-center gap-3"><span class="text-red-500 font-bold">❌</span> "não entende SEO"</li>
@@ -226,18 +245,14 @@
                 <p class="text-white font-medium">O Shorts Milionários entrega modelos prontos acompanhados por um sistema que gera automaticamente os prompts necessários para cada etapa da criação.</p>
             </div>
             
-            <!-- Mockup do App Otimizado com a Imagem Fornecida -->
             <div class="w-full max-w-5xl mx-auto relative mt-10 mb-12 md:mb-16 px-2 sm:px-0">
                 <div class="absolute inset-0 bg-brand-gold/20 blur-[60px] md:blur-[100px] rounded-[50px] md:rounded-[100px] transform scale-90"></div>
-                <!-- Tela do Notebook -->
                 <div class="relative bg-[#050505] border border-brand-border rounded-t-xl md:rounded-t-3xl shadow-gold-glow-xl overflow-hidden aspect-[16/10] md:aspect-video flex flex-col justify-center items-center">
                     <img id="app-mockup-img" src="" alt="Aplicativo Shorts Milionários" class="w-full h-full object-cover md:object-contain opacity-0 transition-opacity duration-500">
-                    <!-- Loading state caso a imagem demore -->
                     <div id="app-mockup-loader" class="absolute inset-0 flex items-center justify-center">
                         <svg class="animate-spin h-8 w-8 text-brand-gold" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                     </div>
                 </div>
-                <!-- Base do Notebook -->
                 <div class="h-2 md:h-4 bg-[#222] rounded-b-xl md:rounded-b-2xl shadow-2xl relative mx-auto w-[102%] md:w-[105%] -ml-[1%] md:-ml-[2.5%] flex justify-center">
                     <div class="w-16 md:w-32 h-0.5 md:h-1 bg-white/20 rounded-b-sm md:rounded-b-md"></div>
                 </div>
@@ -308,7 +323,6 @@
                 </div>
             </div>
 
-            <!-- Grid de Modelos Responsiva -->
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-6 mb-12 md:mb-16 reveal" id="modelos-grid">
                 <!-- As 10 capas serão renderizadas aqui pelo JavaScript com cores originais vivas -->
             </div>
@@ -355,7 +369,6 @@
                 <h2 class="text-3xl md:text-5xl font-extrabold mb-4 leading-tight">Pessoas Comuns Já Estão Usando o Shorts Milionários Para Dar o Primeiro Passo</h2>
             </div>
 
-            <!-- Vídeo do Youtube (Horizontal 16:9) -->
             <div class="reveal mb-12 md:mb-16 px-2 sm:px-0">
                 <div class="w-full max-w-4xl mx-auto aspect-video bg-brand-black border border-brand-gold rounded-xl md:rounded-[24px] shadow-gold-glow md:shadow-gold-glow-lg overflow-hidden relative" id="container-video-youtube">
                      <!-- O Iframe do Youtube será injetado aqui -->
@@ -366,12 +379,10 @@
                 <h3 class="text-xl md:text-2xl font-montserrat font-bold text-white mb-2">Veja o que os usuários estão dizendo:</h3>
             </div>
 
-            <!-- Grid de Prints do WhatsApp (Apenas 4) -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-12 md:mb-16 reveal" id="prints-whatsapp-grid">
                 <!-- Prints serão injetados aqui -->
             </div>
 
-            <!-- Quotes dos usuários -->
             <div class="max-w-4xl mx-auto bg-brand-black border border-brand-border p-6 md:p-12 rounded-xl md:rounded-2xl reveal mb-12 md:mb-16 shadow-lg">
                 <h3 class="text-lg md:text-2xl font-montserrat font-bold text-brand-gold mb-6 md:mb-8 text-center">O que mais ouvimos dos usuários:</h3>
                 <div class="grid md:grid-cols-2 gap-4 md:gap-6 text-[#BDBDBD] text-base md:text-lg">
@@ -447,7 +458,6 @@
                     QUERO ACESSAR AGORA
                 </a>
                 
-                <!-- Ícones de pagamento removidos conforme solicitado, mantido apenas o selo de segurança -->
                 <div class="flex flex-wrap justify-center items-center gap-3 md:gap-4 mt-6 opacity-70 scale-90 md:scale-100">
                     <span class="text-xs md:text-sm font-medium text-white ml-2">Ambiente 100% seguro</span>
                 </div>
@@ -534,30 +544,16 @@
     <!-- ================================================================================================= -->
     <script>
         const CONFIG = {
-            
-            // 🛒 1. LINK DE CHECKOUT (HOTMART)
-            // Cole seu link entre as aspas. Ele atualizará TODOS os botões da página.
             linkCheckout: "https://pay.hotmart.com/Y101106544Q?checkoutMode=10",
-
-            // 🖼️ 2. IMAGEM PRINCIPAL (HERO - TOPO DA PÁGINA)
             imagemHero: "https://i.postimg.cc/FzFXMpzJ/so-ajuste-ao-formato-2K-202606181049.jpg", 
-
-            // 💻 3. IMAGEM DO APLICATIVO (MOCKUP NOTEBOOK)
             imagemApp: "https://i.postimg.cc/HL1j7GjQ/Captura-de-tela-2026-06-18-103356.jpg",
-
-            // 🎥 4. VÍDEO DO ALUNO (DEPOIMENTO YOUTUBE)
-            // Cole APENAS o ID do vídeo (as letras e números finais depois do v= ou da barra)
             videoAlunoId: "HgHQ6i9VhD0",
-
-            // 📱 5. PRINTS DO WHATSAPP (4 IMAGENS DE PROVA SOCIAL)
             printsWhatsapp: [
                 "https://i.postimg.cc/ZqsgMm33/Printrest-e-Instagram.png", 
                 "https://i.postimg.cc/dVYK2Jmm/606233185-18197867563334506-3010239172778012860-n.jpg", 
                 "https://i.postimg.cc/RZBz7vQT/607266135-18198117901334506-7704531452541901502-n.jpg", 
                 "https://i.postimg.cc/x12Sv9y3/608853321-18198304930334506-7703750638704747993-n.jpg"  
             ],
-
-            // 🎬 6. CAPAS DOS 10 MODELOS
             modelos: [
                 { nome: "Comédia Absurda", link_imagem: "https://i.postimg.cc/J4Dx4mjF/A-vertical-photorealistic-portrait-poster-202606031725.jpg" },
                 { nome: "Jornada Visual Muda", link_imagem: "https://i.postimg.cc/02Mn2x7n/A-vertical-photorealistic-portrait-poster-202606031726.jpg" },
@@ -572,17 +568,25 @@
             ]
         };
     </script>
-    <!-- ================================================================================================= -->
-    <!-- FIM DA ÁREA DE CONFIGURAÇÃO (NÃO PRECISA MEXER NO CÓDIGO ABAIXO DESSA LINHA)                      -->
-    <!-- ================================================================================================= -->
-
-    <!-- Scripts de Geração de Conteúdo e Interação -->
+    
     <script>
         // Atualizar todos os links de checkout automaticamente
         document.querySelectorAll('.btn-cta').forEach(btn => {
             if(CONFIG.linkCheckout && !CONFIG.linkCheckout.includes("COLOQUE_AQUI")) {
                 btn.href = CONFIG.linkCheckout;
             }
+            
+            // 📌 ADICIONADO: Evento de InitiateCheckout do Pixel 
+            // Quando a pessoa clicar no botão de compra, avisa o Facebook
+            btn.addEventListener('click', function() {
+                if(typeof fbq === 'function') {
+                    fbq('track', 'InitiateCheckout', {
+                        content_name: 'Shorts Milionários',
+                        currency: 'BRL',
+                        value: 47.00
+                    });
+                }
+            });
         });
 
         // 0. Renderizar Imagem Principal (Hero)
@@ -613,7 +617,7 @@
             }
         }
 
-        // 1. Renderizar os Benefícios (Copy Etapa 7)
+        // 1. Renderizar os Benefícios
         const beneficiosContainer = document.getElementById('beneficios-grid');
         if(beneficiosContainer) {
             const benefitsList = [
@@ -653,7 +657,6 @@
                 
                 modelosContainer.innerHTML += `
                     <div class="w-full max-w-[220px] mx-auto aspect-[9/16] bg-brand-card border border-brand-border rounded-xl hover:scale-105 hover:shadow-gold-glow transition-all duration-300 relative overflow-hidden group cursor-pointer" style="${bgStyle}">
-                        <!-- Degrade sutil apenas embaixo para o texto ficar legível. A imagem fica 100% clara -->
                         <div class="absolute inset-x-0 bottom-0 p-3 md:p-4 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/40 to-transparent h-1/2">
                             <div class="w-6 h-6 md:w-8 md:h-8 rounded-full border border-brand-gold/50 bg-black/50 backdrop-blur-sm flex items-center justify-center mb-2 shadow-gold-glow">
                                 <svg class="w-3 h-3 md:w-4 md:h-4 text-brand-gold" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
@@ -731,7 +734,7 @@
             });
         }
 
-        // 6. Renderizar FAQ Complete (Copy Etapa 10)
+        // 6. Renderizar FAQ
         const faqContainer = document.getElementById('faq-container');
         if(faqContainer) {
             const faqList = [
@@ -764,14 +767,13 @@
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 50; // Começa um pouco antes no mobile
+                var elementVisible = 50; 
                 if (elementTop < windowHeight - elementVisible) {
                     reveals[i].classList.add("active");
                 }
             }
         }
         window.addEventListener("scroll", reveal);
-        // Pequeno atraso para garantir que os elementos dinâmicos carreguem
         setTimeout(reveal, 100);
 
         // Accordion FAQ Logic
@@ -783,13 +785,11 @@
             const arrow = item.querySelector('.arrow');
             const isHidden = answer.classList.contains('hidden');
             
-            // Fechar todos
             document.querySelectorAll('.faq-item').forEach(otherItem => {
                 otherItem.querySelector('.answer').classList.add('hidden');
                 otherItem.querySelector('.arrow').style.transform = 'rotate(0deg)';
             });
             
-            // Abrir o clicado se estava fechado
             if(isHidden) {
                 answer.classList.remove('hidden');
                 arrow.style.transform = 'rotate(180deg)';
