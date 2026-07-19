@@ -19,24 +19,34 @@
     // Inicialização do Pixel
     fbq('init', '2989922651346925');
     
-    // 1. Evento Padrão de Visualização de Página
-    fbq('track', 'PageView');
+    // FUNÇÃO PARA GERAR ID ÚNICO (Resolve o erro de Desduplicação da API de Conversões)
+    var generateEventId = function() {
+        return 'evt_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    };
     
-    // 2. Evento de Visualização de Conteúdo (Indicador forte para páginas de vendas)
+    var pageViewId = generateEventId();
+    var viewContentId = generateEventId();
+
+    // 1. Evento Padrão de Visualização de Página (Com ID de desduplicação)
+    fbq('track', 'PageView', {}, { eventID: pageViewId });
+    
+    // 2. Evento de Visualização de Conteúdo (Com ID, valor e moeda)
     fbq('track', 'ViewContent', {
         content_name: 'Página de Vendas - Shorts Milionários',
-        content_category: 'Software/Curso'
-    });
+        content_category: 'Software/Curso',
+        value: 47.00,
+        currency: 'BRL'
+    }, { eventID: viewContentId });
 
     // 3. Condicional para Evento de Compra (Purchase)
-    // O evento de Purchase geralmente fica na página de "Obrigado" ou é disparado pela Hotmart.
-    // Se a URL contiver "?compra=aprovada" (ex: retorno do checkout), disparamos a Compra aqui.
+    // Dispara se a pessoa retornar da Hotmart com ?compra=aprovada na URL
     if (window.location.search.includes('compra=aprovada')) {
+        var purchaseId = generateEventId();
         fbq('track', 'Purchase', {
             currency: 'BRL',
             value: 47.00,
             content_name: 'Shorts Milionários'
-        });
+        }, { eventID: purchaseId });
     }
     </script>
     <noscript><img height="1" width="1" style="display:none"
@@ -555,15 +565,18 @@
                 btn.href = CONFIG.linkCheckout;
             }
             
-            // 📌 ADICIONADO: Evento de InitiateCheckout do Pixel 
+            // 📌 ADICIONADO: Evento de InitiateCheckout do Pixel (COM CHAVE DE DESDUPLICAÇÃO)
             // Quando a pessoa clicar no botão de compra, avisa o Facebook
             btn.addEventListener('click', function() {
                 if(typeof fbq === 'function') {
+                    // Gera um ID único no momento do clique
+                    var clickEventId = 'chk_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+                    
                     fbq('track', 'InitiateCheckout', {
                         content_name: 'Shorts Milionários',
                         currency: 'BRL',
                         value: 47.00
-                    });
+                    }, { eventID: clickEventId });
                 }
             });
         });
